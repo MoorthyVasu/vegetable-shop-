@@ -1,0 +1,640 @@
+/* CSS Variables */
+:root {
+    --primary-green: #2d5a27;
+    --light-green: #4caf50;
+    --accent-green: #8bc34a;
+    --bg-cream: #f5f5dc;
+    --text-dark: #333;
+    --text-light: #666;
+    --white: #ffffff;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 8px 15px rgba(0, 0, 0, 0.15);
+    --border-radius: 12px;
+    --danger: #e74c3c;
+    --warning: #f39c12;
+}
+
+/* Reset & Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header */
+header {
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--light-green) 100%);
+    color: var(--white);
+    padding: 30px 0;
+    text-align: center;
+    box-shadow: var(--shadow);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.logo-icon {
+    font-size: 3rem;
+}
+
+.logo h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+}
+
+.tagline {
+    font-size: 1.1rem;
+    opacity: 0.95;
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(rgba(45, 90, 39, 0.8), rgba(76, 175, 80, 0.8)), 
+                url('https://images.unsplash.com/photo-1540420773420-3366772f4999?w=1200') center/cover;
+    border-radius: var(--border-radius);
+    padding: 60px 20px;
+    text-align: center;
+    color: var(--white);
+    margin: 30px 0;
+}
+
+.hero h2 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    opacity: 0.95;
+}
+
+/* Sections */
+section {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: var(--shadow);
+}
+
+section h2 {
+    color: var(--primary-green);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--accent-green);
+}
+
+/* Search Bar */
+.search-bar {
+    margin-bottom: 20px;
+}
+
+.search-bar input {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 25px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.search-bar input:focus {
+    outline: none;
+    border-color: var(--light-green);
+}
+
+/* Vegetables Grid */
+.vegetables-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.vegetable-card {
+    background: linear-gradient(135deg, #fff 0%, #f0f9f0 100%);
+    border: 2px solid #e8f5e8;
+    border-radius: var(--border-radius);
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+}
+
+.vegetable-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--accent-green);
+}
+
+.vegetable-emoji {
+    font-size: 3.5rem;
+    margin-bottom: 10px;
+}
+
+.vegetable-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--primary-green);
+    margin-bottom: 8px;
+}
+
+.vegetable-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--light-green);
+}
+
+.vegetable-price span {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--text-light);
+}
+
+.price-change {
+    font-size: 0.85rem;
+    margin-top: 5px;
+    padding: 3px 8px;
+    border-radius: 15px;
+    display: inline-block;
+}
+
+.price-up {
+    background: #ffe6e6;
+    color: var(--danger);
+}
+
+.price-down {
+    background: #e6ffe6;
+    color: var(--primary-green);
+}
+
+.price-same {
+    background: #f0f0f0;
+    color: var(--text-light);
+}
+
+/* Chart Section */
+.chart-controls {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.chart-controls label {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.chart-controls select {
+    padding: 10px 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: var(--white);
+    cursor: pointer;
+}
+
+.chart-controls select:focus {
+    outline: none;
+    border-color: var(--light-green);
+}
+
+.chart-container {
+    position: relative;
+    height: 300px;
+    max-height: 400px;
+}
+
+/* Contact Section */
+.contact-section {
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--light-green) 100%);
+    color: var(--white);
+}
+
+.contact-section h2 {
+    color: var(--white);
+    border-bottom-color: rgba(255, 255, 255, 0.3);
+}
+
+.contact-info p {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+/* Footer */
+footer {
+    background: var(--primary-green);
+    color: var(--white);
+    text-align: center;
+    padding: 20px;
+    margin-top: 30px;
+}
+
+/* ============== ADMIN STYLES ============== */
+
+.admin-body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Login Screen */
+.login-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.login-card {
+    background: var(--white);
+    padding: 40px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-hover);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.login-card h2 {
+    color: var(--primary-green);
+    margin-bottom: 30px;
+}
+
+.hint {
+    margin-top: 15px;
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+/* Admin Header */
+.admin-header {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: var(--white);
+    padding: 20px 0;
+    margin-bottom: 30px;
+}
+
+.admin-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.admin-header h1 {
+    font-size: 1.8rem;
+}
+
+.header-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* Admin Panel */
+.admin-panel {
+    min-height: 100vh;
+    background: #f0f2f5;
+}
+
+.admin-main {
+    padding-bottom: 50px;
+}
+
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
+}
+
+.admin-card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 25px;
+    box-shadow: var(--shadow);
+}
+
+.admin-card.full-width {
+    grid-column: 1 / -1;
+}
+
+.admin-card h2 {
+    color: #1e3c72;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #667eea;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+/* Buttons */
+.btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--light-green) 0%, var(--primary-green) 100%);
+    color: var(--white);
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: var(--white);
+}
+
+.btn-danger {
+    background: var(--danger);
+    color: var(--white);
+}
+
+.btn-small {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+}
+
+.btn-edit {
+    background: var(--warning);
+    color: var(--white);
+    padding: 6px 12px;
+    font-size: 0.85rem;
+}
+
+.btn-delete {
+    background: var(--danger);
+    color: var(--white);
+    padding: 6px 12px;
+    font-size: 0.85rem;
+}
+
+/* Vegetables Admin List */
+.vegetables-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.admin-veg-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    background: #fafafa;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.admin-veg-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.admin-veg-info .emoji {
+    font-size: 2rem;
+}
+
+.admin-veg-info .details h4 {
+    font-size: 1.1rem;
+    color: var(--text-dark);
+}
+
+.admin-veg-info .details p {
+    color: var(--light-green);
+    font-weight: 600;
+}
+
+.admin-veg-actions {
+    display: flex;
+    gap: 8px;
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: var(--white);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    text-align: center;
+}
+
+.stat-card h3 {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin-bottom: 10px;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+/* Visits Table */
+.visits-table-container {
+    overflow-x: auto;
+    margin-bottom: 20px;
+}
+
+.visits-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.visits-table th,
+.visits-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.visits-table th {
+    background: #f5f5f5;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.visits-table tr:hover {
+    background: #f8f8f8;
+}
+
+/* Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.modal-content {
+    background: var(--white);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    width: 100%;
+    max-width: 450px;
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-light);
+    transition: color 0.2s;
+}
+
+.close-btn:hover {
+    color: var(--danger);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .logo h1 {
+        font-size: 1.5rem;
+    }
+
+    .logo-icon {
+        font-size: 2rem;
+    }
+
+    .hero {
+        padding: 40px 15px;
+    }
+
+    .hero h2 {
+        font-size: 1.8rem;
+    }
+
+    .vegetables-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+
+    .admin-header .container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .admin-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    section {
+        padding: 20px 15px;
+    }
+
+    .vegetables-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .vegetable-card {
+        padding: 15px;
+    }
+
+    .vegetable-emoji {
+        font-size: 2.5rem;
+    }
+
+    .admin-veg-item {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.vegetable-card {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* No Data Message */
+.no-data {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-light);
+    font-size: 1.1rem;
+}
