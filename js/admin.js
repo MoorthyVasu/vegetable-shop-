@@ -51,16 +51,18 @@ function logout() {
 }
 
 // Load all admin data
-function loadAdminData() {
-    loadVegetablesList();
+async function loadAdminData() {
+    await loadVegetablesList();
     loadVisitorStats();
     loadVisitsTable();
 }
 
 // Load vegetables list for management
-function loadVegetablesList() {
-    const vegetables = getVegetables();
+async function loadVegetablesList() {
     const list = document.getElementById('adminVegetablesList');
+    list.innerHTML = '<p class="no-data">Loading...</p>';
+    
+    const vegetables = await fetchVegetablesFromSheet();
     
     if (vegetables.length === 0) {
         list.innerHTML = '<p class="no-data">No vegetables added yet.</p>';
@@ -72,7 +74,7 @@ function loadVegetablesList() {
             <div class="admin-veg-info">
                 <span class="emoji">${veg.emoji}</span>
                 <div class="details">
-                    <h4>${veg.name}</h4>
+                    <h4>${veg.name} <span style="color: #666; font-weight: normal;">(${veg.tamilName || ''})</span></h4>
                     <p>₹${veg.price}/kg</p>
                 </div>
             </div>
@@ -85,46 +87,41 @@ function loadVegetablesList() {
 }
 
 // Add new vegetable
-function addVegetable(event) {
+async function addVegetable(event) {
     event.preventDefault();
     
     const name = document.getElementById('vegName').value.trim();
+    const tamilName = document.getElementById('vegTamilName').value.trim();
     const price = parseFloat(document.getElementById('vegPrice').value);
     const emoji = document.getElementById('vegEmoji').value.trim();
     
     // Validate
-    if (!name || !price || !emoji) {
+    if (!name || !tamilName || !price || !emoji) {
         alert('Please fill all fields!');
         return;
     }
     
-    const vegetables = getVegetables();
+    // Show loading
+    const submitBtn = event.target.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Adding...';
+    submitBtn.disabled = true;
     
-    // Check for duplicate
-    if (vegetables.some(v => v.name.toLowerCase() === name.toLowerCase())) {
-        alert('This vegetable already exists!');
-        return;
+    // Add to Google Sheets
+    const result = await addVegetableToSheet(name, tamilName, price, emoji);
+    
+    submitBtn.textContent = originalText;
+    submitBtn.disabled = false;
+    
+    if (result.success) {
+        // Reset form
+        document.getElementById('addVegetableForm').reset();
+        // Reload list
+        await loadVegetablesList();
+        alert(`${emoji} ${name} added successfully!`);
+    } else {
+        alert('Failed to add vegetable. Please try again.');
     }
-    
-    // Create new vegetable
-    const newVeg = {
-        id: getNextId(),
-        name: name,
-        price: price,
-        emoji: emoji,
-        priceHistory: [price, price, price, price, price]
-    };
-    
-    vegetables.push(newVeg);
-    saveVegetables(vegetables);
-    
-    // Reset form
-    document.getElementById('addVegetableForm').reset();
-    
-    // Reload list
-    loadVegetablesList();
-    
-    alert(`${emoji} ${name} added successfully!`);
 }
 
 // Open edit modal
@@ -136,6 +133,7 @@ function openEditModal(id) {
     
     document.getElementById('editVegId').value = veg.id;
     document.getElementById('editVegName').value = veg.name;
+    document.getElementById('editVegTamilName').value = veg.tamilName || '';
     document.getElementById('editVegPrice').value = veg.price;
     document.getElementById('editVegEmoji').value = veg.emoji;
     
@@ -148,55 +146,51 @@ function closeEditModal() {
 }
 
 // Save edited vegetable
-function saveEditedVegetable(event) {
+async function saveEditedVegetable(event) {
     event.preventDefault();
     
     const id = parseInt(document.getElementById('editVegId').value);
     const name = document.getElementById('editVegName').value.trim();
+    const tamilName = document.getElementById('editVegTamilName').value.trim();
     const price = parseFloat(document.getElementById('editVegPrice').value);
     const emoji = document.getElementById('editVegEmoji').value.trim();
     
-    const vegetables = getVegetables();
-    const index = vegetables.findIndex(v => v.id === id);
+    // Show loading
+    const submitBtn = event.target.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Saving...';
+    submitBtn.disabled = true;
     
-    if (index === -1) return;
+    // Update in Google Sheets
+    const result = await updateVegetableInSheet(id, name, tamilName, price, emoji);
     
-    const oldPrice = vegetables[index].price;
+    submitBtn.textContent = originalText;
+    submitBtn.disabled = false;
     
-    // Update vegetable
-    vegetables[index].name = name;
-    vegetables[index].price = price;
-    vegetables[index].emoji = emoji;
-    
-    // Update price history if price changed
-    if (oldPrice !== price) {
-        if (!vegetables[index].priceHistory) {
-            vegetables[index].priceHistory = [oldPrice, oldPrice, oldPrice, oldPrice, price];
-        } else {
-            vegetables[index].priceHistory.shift();
-            vegetables[index].priceHistory.push(price);
-        }
+    if (result.success) {
+        closeEditModal();
+        await loadVegetablesList();
+        alert(`${emoji} ${name} updated successfully!`);
+    } else {
+        alert('Failed to update vegetable. Please try again.');
     }
-    
-    saveVegetables(vegetables);
-    closeEditModal();
-    loadVegetablesList();
-    
-    alert(`${emoji} ${name} updated successfully!`);
 }
 
 // Delete vegetable
-function deleteVegetable(id) {
+async function deleteVegetable(id) {
     if (!confirm('Are you sure you want to delete this vegetable?')) {
         return;
     }
     
-    let vegetables = getVegetables();
-    vegetables = vegetables.filter(v => v.id !== id);
-    saveVegetables(vegetables);
-    loadVegetablesList();
+    // Delete from Google Sheets
+    const result = await deleteVegetableFromSheet(id);
     
-    alert('Vegetable deleted successfully!');
+    if (result.success) {
+        await loadVegetablesList();
+        alert('Vegetable deleted successfully!');
+    } else {
+        alert('Failed to delete vegetable. Please try again.');
+    }
 }
 
 // Load visitor statistics

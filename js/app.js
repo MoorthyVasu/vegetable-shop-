@@ -3,21 +3,24 @@
 let priceChart = null;
 
 // Initialize the app
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     // Record this visit
     recordVisit('Home');
     
-    // Load vegetables
-    loadVegetables();
+    // Load vegetables from Google Sheets
+    await loadVegetables();
     
     // Initialize chart
     initializeChart();
 });
 
 // Load and display vegetables
-function loadVegetables() {
-    const vegetables = getVegetables();
+async function loadVegetables() {
     const grid = document.getElementById('vegetablesGrid');
+    grid.innerHTML = '<p class="no-data">Loading vegetables...</p>';
+    
+    // Fetch from Google Sheets
+    const vegetables = await fetchVegetablesFromSheet();
     const select = document.getElementById('vegetableSelect');
     
     if (vegetables.length === 0) {
@@ -42,6 +45,7 @@ function loadVegetables() {
         card.innerHTML = `
             <div class="vegetable-emoji">${veg.emoji}</div>
             <div class="vegetable-name">${veg.name}</div>
+            <div class="vegetable-name-tamil">${veg.tamilName || ''}</div>
             <div class="vegetable-price">₹${veg.price} <span>/kg</span></div>
             <div class="price-change ${priceChange.class}">${priceChange.text}</div>
         `;
@@ -57,7 +61,7 @@ function loadVegetables() {
         // Add to select dropdown
         const option = document.createElement('option');
         option.value = veg.id;
-        option.textContent = `${veg.emoji} ${veg.name}`;
+        option.textContent = `${veg.emoji} ${veg.name} - ${veg.tamilName || ''}`;
         select.appendChild(option);
     });
 }
@@ -89,7 +93,8 @@ function filterVegetables() {
     const grid = document.getElementById('vegetablesGrid');
     
     const filtered = vegetables.filter(veg => 
-        veg.name.toLowerCase().includes(searchTerm)
+        veg.name.toLowerCase().includes(searchTerm) ||
+        (veg.tamilName && veg.tamilName.includes(searchTerm))
     );
     
     if (filtered.length === 0) {
@@ -108,6 +113,7 @@ function filterVegetables() {
         card.innerHTML = `
             <div class="vegetable-emoji">${veg.emoji}</div>
             <div class="vegetable-name">${veg.name}</div>
+            <div class="vegetable-name-tamil">${veg.tamilName || ''}</div>
             <div class="vegetable-price">₹${veg.price} <span>/kg</span></div>
             <div class="price-change ${priceChange.class}">${priceChange.text}</div>
         `;

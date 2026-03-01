@@ -43,8 +43,12 @@
                     <h2>🥬 Add New Vegetable</h2>
                     <form id="addVegetableForm" onsubmit="addVegetable(event)">
                         <div class="form-group">
-                            <label for="vegName">Vegetable Name</label>
+                            <label for="vegName">Vegetable Name (English)</label>
                             <input type="text" id="vegName" required placeholder="e.g., Tomato">
+                        </div>
+                        <div class="form-group">
+                            <label for="vegTamilName">Vegetable Name (Tamil)</label>
+                            <input type="text" id="vegTamilName" required placeholder="e.g., தக்காளி">
                         </div>
                         <div class="form-group">
                             <label for="vegPrice">Price (₹/kg)</label>
@@ -112,8 +116,12 @@
             <form id="editVegetableForm" onsubmit="saveEditedVegetable(event)">
                 <input type="hidden" id="editVegId">
                 <div class="form-group">
-                    <label for="editVegName">Vegetable Name</label>
+                    <label for="editVegName">Vegetable Name (English)</label>
                     <input type="text" id="editVegName" required>
+                </div>
+                <div class="form-group">
+                    <label for="editVegTamilName">Vegetable Name (Tamil)</label>
+                    <input type="text" id="editVegTamilName" required>
                 </div>
                 <div class="form-group">
                     <label for="editVegPrice">Price (₹/kg)</label>
